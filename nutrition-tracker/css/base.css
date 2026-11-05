@@ -1,0 +1,14 @@
+/* Design tokens, reset, typography, page shell */
+:root{--bg:#F2F6F1;--card:#fff;--ink:#14231A;--mute:#5B6B61;--line:#DCE5DC;--accent:#1F7A4D;--onaccent:#fff;--kcal:#D9820B;--pro:#2E8B57;--carb:#3B6FD4;--fat:#C8553D;--fib:#7A8F1E;--over:#C0392B;--track:#E6EDE5;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1913;--card:#17251D;--ink:#E8F0EA;--mute:#94A69A;--line:#263A2E;--accent:#4CC38A;--onaccent:#07150d;--kcal:#F0A63A;--pro:#4CC38A;--carb:#6C9BFF;--fat:#F0836C;--fib:#A8BF45;--over:#FF7B6B;--track:#22352A}}
+:root[data-theme="dark"]{--bg:#0F1913;--card:#17251D;--ink:#E8F0EA;--mute:#94A69A;--line:#263A2E;--accent:#4CC38A;--onaccent:#07150d;--kcal:#F0A63A;--pro:#4CC38A;--carb:#6C9BFF;--fat:#F0836C;--fib:#A8BF45;--over:#FF7B6B;--track:#22352A}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:20px 16px 48px}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:space-between;margin-bottom:18px}
+h1{font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.1;margin:0;font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.1rem;margin:0 0 12px;font-weight:600}
+[hidden]{display:none!important}
+a{color:var(--accent)}

@@ -1,0 +1,12 @@
+{
+  "name": "nutrition-tracker",
+  "version": "1.0.0",
+  "description": "Daily calorie and nutrient tracker with goal plans, alerts and local-only storage.",
+  "private": true,
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "check": "node scripts/check.js"
+  }
+}

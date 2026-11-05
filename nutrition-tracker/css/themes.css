@@ -1,0 +1,18 @@
+/* Colour themes. Green is the default (see base.css). Each theme has a light and a dark palette.
+   Chosen with data-accent on <html>; light/dark with data-theme (unset = follow the device). */
+
+:root[data-accent="ocean"]{--bg:#EFF4FA;--ink:#12202E;--mute:#566678;--line:#D7E2EE;--accent:#1F63C4;--track:#E1EAF3;--onaccent:#fff}
+:root[data-accent="violet"]{--bg:#F4F1FA;--ink:#1E1530;--mute:#655B78;--line:#E1DAEE;--accent:#6B3FC4;--track:#E8E2F2;--onaccent:#fff}
+:root[data-accent="sunset"]{--bg:#FAF3EC;--ink:#2A1A10;--mute:#746050;--line:#EADCCB;--accent:#B84F08;--track:#F0E4D6;--onaccent:#fff}
+:root[data-accent="rose"]{--bg:#FAF0F2;--ink:#2E141B;--mute:#765862;--line:#EED8DD;--accent:#C2305A;--track:#F2E1E5;--onaccent:#fff}
+
+:root[data-theme="dark"][data-accent="ocean"]{--bg:#0D1620;--card:#15222F;--ink:#E6EEF7;--mute:#90A3B7;--line:#243649;--accent:#5AA2FF;--onaccent:#04111f;--track:#1E3044}
+:root[data-theme="dark"][data-accent="violet"]{--bg:#151021;--card:#1F1830;--ink:#EEE8F8;--mute:#A79BBD;--line:#342A4B;--accent:#A98BFF;--onaccent:#12072b;--track:#2B2240}
+:root[data-theme="dark"][data-accent="sunset"]{--bg:#1A120C;--card:#261A12;--ink:#F6EBDD;--mute:#B8A28D;--line:#3D2D20;--accent:#FF9A4A;--onaccent:#1f0d00;--track:#33261B}
+:root[data-theme="dark"][data-accent="rose"]{--bg:#1B1014;--card:#281A20;--ink:#F8E8EC;--mute:#BA9AA4;--line:#40272F;--accent:#FF7A9E;--onaccent:#2a0510;--track:#35212A}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"])[data-accent="ocean"]{--bg:#0D1620;--card:#15222F;--ink:#E6EEF7;--mute:#90A3B7;--line:#243649;--accent:#5AA2FF;--onaccent:#04111f;--track:#1E3044}
+  :root:not([data-theme="light"])[data-accent="violet"]{--bg:#151021;--card:#1F1830;--ink:#EEE8F8;--mute:#A79BBD;--line:#342A4B;--accent:#A98BFF;--onaccent:#12072b;--track:#2B2240}
+  :root:not([data-theme="light"])[data-accent="sunset"]{--bg:#1A120C;--card:#261A12;--ink:#F6EBDD;--mute:#B8A28D;--line:#3D2D20;--accent:#FF9A4A;--onaccent:#1f0d00;--track:#33261B}
+  :root:not([data-theme="light"])[data-accent="rose"]{--bg:#1B1014;--card:#281A20;--ink:#F8E8EC;--mute:#BA9AA4;--line:#40272F;--accent:#FF7A9E;--onaccent:#2a0510;--track:#35212A}
+}

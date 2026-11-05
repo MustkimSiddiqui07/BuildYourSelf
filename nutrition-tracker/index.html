@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Daily nutrition tracker</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap">
+<meta name="theme-color" content="#1F7A4D">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%A5%97%3C/text%3E%3C/svg%3E">
+<script>try{var t=JSON.parse(localStorage.getItem("nutri-theme-v1")||"{}"),r=document.documentElement;if(t.mode==="light"||t.mode==="dark")r.dataset.theme=t.mode;if(t.color&&t.color!=="green")r.dataset.accent=t.color}catch(e){}</script>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/themes.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="me"><div><h1><span class="ico" aria-hidden="true">🥗</span> Daily nutrition tracker</h1><div class="mute" id="hi"></div></div></div>
+    <div class="hright">
+      <button class="btn ghost" id="themeBtn" type="button" aria-haspopup="dialog"><span class="ico" aria-hidden="true">🎨</span> Theme</button>
+      <div><label for="date">Day</label><input type="date" id="date"></div>
+    </div>
+    <button class="dpbtn" id="meBtn" aria-label="Edit profile"></button>
+  </header>
+  <div id="warn" class="warn" hidden>This browser is blocking local storage, so entries will be lost when you close the page.</div>
+
+  <section class="card" id="setup" hidden>
+    <h2><span class="ico" aria-hidden="true">📏</span> Set your daily target</h2>
+    <div id="step1">
+      <p class="mute">Answer these questions first. We use them to estimate how many calories and how much protein you need.</p>
+      <div class="row">
+        <div><label for="age">Age</label><input id="age" type="number" min="15" max="80" inputmode="numeric"></div>
+        <div><label for="sex">Sex</label><select id="sex"><option value="m">Male</option><option value="f">Female</option></select></div>
+        <div><label for="ht">Height (cm)</label><input id="ht" type="number" inputmode="decimal"></div>
+        <div><label for="wt">Weight (kg)</label><input id="wt" type="number" inputmode="decimal"></div>
+        <div style="grid-column:1/-1"><label for="act">Activity level</label><select id="act"></select></div>
+      </div>
+      <p class="mute" id="formErr" style="color:var(--over)"></p>
+      <div class="btns"><button class="btn" id="calcBtn">🧮 Calculate my target</button><button class="btn ghost" id="cancelSetup" hidden>Cancel</button></div>
+    </div>
+    <div id="step2" hidden>
+      <p id="tdeeText"></p>
+      <div class="cats" id="cats"></div>
+      <p class="mute">These are estimates, not medical advice. Adjust your goals anytime under Daily goals.</p>
+      <button class="btn ghost" id="backBtn">Back</button>
+    </div>
+  </section>
+
+  <div class="card planbar" id="planBar" hidden>
+    <div id="planText"></div>
+    <div class="acts"><button class="btn ghost" id="chk">✅ Check my day</button><button class="btn ghost" id="chg">🔄 Change plan</button></div>
+  </div>
+
+  <div class="overlay" id="pm" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="pt">
+      <h2 id="pt">Create your account</h2>
+      <p class="mute">Your name and photo are saved only in this browser.</p>
+      <div class="pedit">
+        <span class="dp lg" id="pdp"><canvas id="cv" width="240" height="240"></canvas></span>
+        <div class="pctl">
+          <label for="pfile">Profile photo</label><input id="pfile" type="file" accept="image/*">
+          <label for="pz">Zoom</label><input id="pz" type="range" min="1" max="3" step="0.05" value="1">
+          <label for="px">Move left or right</label><input id="px" type="range" min="-100" max="100" value="0">
+          <label for="py">Move up or down</label><input id="py" type="range" min="-100" max="100" value="0">
+          <label><input id="pe" type="checkbox" style="width:auto"> Brighten and add contrast</label>
+          <label for="pf">Frame color</label><select id="pf"><option value="0">Green</option><option value="1">Amber</option><option value="2">Blue</option><option value="3">Violet</option></select>
+        </div>
+      </div>
+      <label for="nm">Your name</label><input id="nm" maxlength="30" autocomplete="name">
+      <p class="mute" id="nmErr" style="color:var(--over)"></p>
+      <div class="btns"><button class="btn" id="psave">✨ Create account</button><button class="btn ghost" id="prem">Remove photo</button><button class="btn ghost" id="pcancel">Cancel</button></div>
+    </div>
+  </div>
+
+  <div class="overlay" id="modal" hidden>
+    <div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="mt">
+      <h2 id="mt"></h2>
+      <div id="mb"></div>
+      <button class="btn" id="mok">Got it</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="welcome" hidden>
+    <div class="dialog welcome" role="dialog" aria-modal="true" aria-labelledby="wtitle">
+      <div class="wav" id="wav"></div>
+      <h2 id="wtitle"></h2>
+      <p class="mute" id="wmsg"></p>
+      <div class="wchips" aria-hidden="true"><span>🔥 Calories</span><span>💪 Protein</span><span>🎯 Goals</span><span>📈 Streaks</span></div>
+      <button class="btn" id="wok"></button>
+    </div>
+  </div>
+
+  <div class="overlay" id="tm" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="tt">
+      <h2 id="tt"><span class="ico" aria-hidden="true">🎨</span> Choose your theme</h2>
+      <label>Mode</label>
+      <div class="seg" id="tmode"></div>
+      <label style="margin-top:14px">Colour theme</label>
+      <div class="swatches" id="tcolors"></div>
+      <p class="mute" style="margin-top:12px">Your choice is saved in this browser.</p>
+      <button class="btn" id="tdone" type="button">Done</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="stack">
+      <section class="card" aria-live="polite">
+        <h2><span class="ico" aria-hidden="true">🔥</span> Today’s totals</h2>
+        <div class="ring">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Calories progress">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="var(--track)" stroke-width="12"/>
+            <circle id="arc" cx="60" cy="60" r="52" fill="none" stroke="var(--kcal)" stroke-width="12" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset .4s"/>
+          </svg>
+          <div>
+            <div class="big" id="kcalBig">0</div>
+            <div class="mute" id="kcalSub">of 2,000 kcal</div>
+          </div>
+        </div>
+        <div id="bars"></div>
+      </section>
+
+      <section class="card" id="sugg">
+        <h2><span class="ico" aria-hidden="true">🍽️</span> What to eat</h2>
+        <div class="tabs" id="stabs"></div>
+        <p class="mute" id="sgoal"></p>
+        <div id="sopts"></div>
+      </section>
+
+      <section class="card" id="trk">
+        <h2><span class="ico" aria-hidden="true">🎯</span> Target tracker</h2>
+        <div class="tiles" id="tiles"></div>
+        <p class="mute" id="trkNote"></p>
+        <div class="dots" id="dots"></div>
+      </section>
+
+      <section class="card">
+        <h2><span class="ico" aria-hidden="true">📅</span> Recent days</h2>
+        <div class="days" id="days"></div>
+        <p class="empty" id="daysEmpty">Days you log will appear here.</p>
+      </section>
+
+      <section class="card">
+        <details>
+          <summary><span class="ico" aria-hidden="true">⚙️</span> Daily goals</summary>
+          <div class="row" style="margin-top:12px" id="goals"></div>
+        </details>
+      </section>
+    </div>
+
+    <div class="stack">
+      <section class="card">
+        <h2><span class="ico" aria-hidden="true">➕</span> Add food</h2>
+        <div class="row">
+          <div style="grid-column:1/-1"><label for="food">Food</label><input id="food" list="foods" placeholder="Start typing, e.g. roti, paneer, banana" autocomplete="off"></div>
+          <div><label for="qty">Quantity</label><input id="qty" type="number" min="0" step="any" value="100" inputmode="decimal"></div>
+          <div><label for="unit">Unit</label><select id="unit"><option value="g">grams</option></select></div>
+          <div><label for="meal">Meal</label><select id="meal"><option value="Breakfast">🌅 Breakfast</option><option value="Lunch">☀️ Lunch</option><option value="Snack">🍎 Snack</option><option value="Dinner">🌙 Dinner</option></select></div>
+        </div>
+        <datalist id="foods"></datalist>
+        <p class="preview" id="preview">Choose a food to see its nutrients.</p>
+        <button class="btn" id="add">➕ Add to log</button>
+        <details>
+          <summary><span class="ico" aria-hidden="true">✍️</span> Add your own food</summary>
+          <p class="mute">Enter the values for 100 g from the packet label.</p>
+          <div class="row">
+            <div style="grid-column:1/-1"><label for="cn">Food name</label><input id="cn"></div>
+            <div><label for="ck">Calories</label><input id="ck" type="number" min="0" step="any"></div>
+            <div><label for="cp">Protein (g)</label><input id="cp" type="number" min="0" step="any"></div>
+            <div><label for="cc">Carbs (g)</label><input id="cc" type="number" min="0" step="any"></div>
+            <div><label for="cf">Fat (g)</label><input id="cf" type="number" min="0" step="any"></div>
+            <div><label for="cfi">Fiber (g)</label><input id="cfi" type="number" min="0" step="any"></div>
+          </div>
+          <div class="btns"><button class="btn ghost" id="saveCustom">💾 Save food</button><a class="btn ghost" id="gl" target="_blank" rel="noopener" style="text-decoration:none" href="https://www.google.com/search?q=food+calories+protein+per+100g">🔍 Look up on Google</a></div>
+        </details>
+      </section>
+
+      <section class="card">
+        <h2><span class="ico" aria-hidden="true">📋</span> Food log</h2>
+        <div id="log"></div>
+      </section>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="f-brand"><span class="ico" aria-hidden="true">🥗</span> Daily nutrition tracker</div>
+    <p class="f-by">Designed &amp; developed with <span aria-label="love">❤️</span> by <b id="fname"></b></p>
+    <div class="socials" id="socials" aria-label="Social media links"></div>
+    <p class="f-copy" id="fcopy"></p>
+  </footer>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/nutrition.js"></script>
+<script src="js/foodlog.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/tracker.js"></script>
+<script src="js/suggestions.js"></script>
+<script src="js/setup.js"></script>
+<script src="js/alerts.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/welcome.js"></script>
+<script src="js/footer.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
