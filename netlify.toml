@@ -1,0 +1,4 @@
+# The app lives in the nutrition-tracker/ folder; publish it as the site root.
+[build]
+  publish = "nutrition-tracker"
+  command = "node nutrition-tracker/scripts/check.js"
